@@ -10,16 +10,31 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:indexify.helloWorld"
+    "onCommand:indexify.contextMenu"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "indexify.helloWorld",
-        "title": "Hello World"
+        "command": "indexify.contextMenu",
+        "title": "Indexify"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "indexify.contextMenu",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "indexify.contextMenu",
+          "when": "explorerResourceIsFolder"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",
