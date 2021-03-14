@@ -3,21 +3,35 @@ const { readdirSync, readFileSync, lstatSync } = require("fs");
 
 // utils
 const { namedExports } = require("./named-exports");
+const { anonymousExports } = require("./anonymous-exports");
 
 const readFile = (filepath) => {
   const content = readFileSync(filepath, "utf8");
-  const requiredExports = namedExports(
+
+  const requiredNamedExports = namedExports(
     content,
     /(?<=\b(exports.))(\w+)/g,
     /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs
   );
-  const staticExports = namedExports(
+  const staticNamedExports = namedExports(
     content,
     /(?<=\b(export(\s*)(const|let|var)(\s*)))(\w+)/g,
     /(?<=(export(\s*){))(.*?)(?=})/gs
   );
-  console.log("REQUIRED", requiredExports);
-  console.log("STATIC", staticExports);
+
+  const requiredAnonymousExports = anonymousExports(
+    filepath,
+    content,
+    /((?<=(module.exports(\s*)=))(.*)(?=\())/g
+  );
+  const staticAnonymousExports = anonymousExports(
+    filepath,
+    content,
+    /((?<=(export(\s*)default))(.*?)(?=\())/g
+  );
+
+  console.log("REQUIRED", requiredAnonymousExports);
+  console.log("STATIC", staticAnonymousExports);
 };
 
 module.exports.findFiles = (path) => {
