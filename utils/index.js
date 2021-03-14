@@ -72,6 +72,13 @@ const readFile = (filepath) => {
   };
 };
 
+const sortByFilepath = ({ filepath: filepathA }, { filepath: filepathB }) => {
+  const [fileA, fileB] = [filepathA.toLowerCase(), filepathB.toLowerCase()];
+  if (fileA < fileB) return -1;
+  if (fileA > fileB) return 1;
+  return 0;
+};
+
 module.exports.findFiles = (path, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
@@ -86,5 +93,5 @@ module.exports.findFiles = (path, data = []) => {
       this.findFiles(dirItemPath, data);
     }
   });
-  return data;
+  return data.sort(sortByFilepath);
 };
