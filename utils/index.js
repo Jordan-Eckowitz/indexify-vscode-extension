@@ -5,43 +5,67 @@ const { readdirSync, readFileSync, lstatSync } = require("fs");
 const { namedExports } = require("./named-exports");
 const { anonymousExports } = require("./anonymous-exports");
 const { defaultExports } = require("./default-exports");
+const { typeExports } = require("./type-exports");
+
+// regex - required
+const requiredNamedSingle = /(?<=\b(exports\.))(\w+)/g;
+const requiredMultiSingle = /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs;
+const requiredAnonymous = /((?<=(module.exports(\s*)=))(.*)(?=\())/g;
+const requiredDefault = /(?<=\b(module.exports(\s*)=(\s*)))((?!class|function)\w+)/g;
+
+// regex - static
+const staticNamedSingle = /(?<=\b(export(\s*)(const|let|var)(\s*)))(\w+)/g;
+const staticMultiSingle = /(?<=(export(\s*){))(.*?)(?=})/gs;
+const staticAnonymous = /((?<=(export(\s*)default))(.*?)(?=\())/g;
+const staticDefault = /(?<=\b(export default(\s*)function(\s*))|(export default(\s*)class(\s*))|(export default(\s*)))((?!class|function)\w+)/g;
+
+// regex - types
+const allTypes = /(?<=\b(export(\s*)type(\s*))|(export(\s*)interface(\s*)))(\w+)/g;
 
 const readFile = (filepath) => {
   const content = readFileSync(filepath, "utf8");
 
   const requiredNamedExports = namedExports(
     content,
-    /(?<=\b(exports.))(\w+)/g,
-    /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs
+    requiredNamedSingle,
+    requiredMultiSingle
   );
   const staticNamedExports = namedExports(
     content,
-    /(?<=\b(export(\s*)(const|let|var)(\s*)))(\w+)/g,
-    /(?<=(export(\s*){))(.*?)(?=})/gs
+    staticNamedSingle,
+    staticMultiSingle
   );
 
   const requiredAnonymousExports = anonymousExports(
     filepath,
     content,
-    /((?<=(module.exports(\s*)=))(.*)(?=\())/g
+    requiredAnonymous
   );
   const staticAnonymousExports = anonymousExports(
     filepath,
     content,
-    /((?<=(export(\s*)default))(.*?)(?=\())/g
+    staticAnonymous
   );
 
-  const requiredDefaultExports = defaultExports(
-    content,
-    /(?<=\b(module.exports(\s*)=(\s*)))(\w+)/g
-  );
-  const staticDefaultExports = defaultExports(
-    content,
-    /(?<=\b(export default(\s*)function(\s*))|(export default(\s*)class(\s*))|(export default(\s*)))((?!class|function)\w+)/g
-  );
+  const requiredDefaultExports = defaultExports(content, requiredDefault);
+  const staticDefaultExports = defaultExports(content, staticDefault);
 
-  console.log("REQUIRED", requiredDefaultExports);
-  console.log("STATIC", staticDefaultExports);
+  const allTypeExports = typeExports(content, allTypes);
+
+  return {
+    filepath,
+    static: {
+      named: staticNamedExports,
+      anonymous: staticAnonymousExports,
+      default: staticDefaultExports,
+    },
+    required: {
+      named: requiredNamedExports,
+      anonymous: requiredAnonymousExports,
+      default: requiredDefaultExports,
+    },
+    types: allTypeExports,
+  };
 };
 
 module.exports.findFiles = (path) => {
