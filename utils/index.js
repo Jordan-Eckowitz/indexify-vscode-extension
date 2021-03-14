@@ -47,8 +47,12 @@ const readFile = (filepath) => {
     staticAnonymous
   );
 
-  const requiredDefaultExports = defaultExports(content, requiredDefault);
-  const staticDefaultExports = defaultExports(content, staticDefault);
+  const requiredDefaultExports = defaultExports(
+    filepath,
+    content,
+    requiredDefault
+  );
+  const staticDefaultExports = defaultExports(filepath, content, staticDefault);
 
   const allTypeExports = typeExports(content, allTypes);
 
