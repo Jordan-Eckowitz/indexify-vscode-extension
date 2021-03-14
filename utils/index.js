@@ -6,7 +6,18 @@ const { namedExports } = require("./named-exports");
 
 const readFile = (filepath) => {
   const content = readFileSync(filepath, "utf8");
-  namedExports(content);
+  const requiredExports = namedExports(
+    content,
+    /(?<=\b(exports.))(\w+)/g,
+    /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs
+  );
+  const staticExports = namedExports(
+    content,
+    /(?<=\b(export(\s*)(const|let|var)(\s*)))(\w+)/g,
+    /(?<=(export(\s*){))(.*?)(?=})/gs
+  );
+  console.log("REQUIRED", requiredExports);
+  console.log("STATIC", staticExports);
 };
 
 module.exports.findFiles = (path) => {
