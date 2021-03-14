@@ -10,16 +10,31 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:indexify.helloWorld"
+    "onCommand:indexify.contextMenu"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "indexify.helloWorld",
-        "title": "Hello World"
+        "command": "indexify.contextMenu",
+        "title": "Indexify"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "indexify.contextMenu",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "indexify.contextMenu",
+          "when": "explorerResourceIsFolder"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",
@@ -36,5 +51,8 @@
     "mocha": "^8.2.1",
     "typescript": "^4.1.3",
     "vscode-test": "^1.5.0"
+  },
+  "dependencies": {
+    "lodash.uniq": "^4.5.0"
   }
 }
