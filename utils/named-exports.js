@@ -1,6 +1,3 @@
-// packages
-const uniq = require("lodash.uniq");
-
 module.exports.namedExports = (content, singleRegex, multiRegex) => {
   const singleNamedExport = content.match(singleRegex) || [];
   const multi = content.match(multiRegex);
@@ -15,5 +12,5 @@ module.exports.namedExports = (content, singleRegex, multiRegex) => {
         .flat()
         .filter((item) => item.length > 0)
     : [];
-  return uniq([...singleNamedExport, ...multiNamedExport]);
+  return [...singleNamedExport, ...multiNamedExport];
 };

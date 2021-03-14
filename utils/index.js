@@ -4,6 +4,7 @@ const { readdirSync, readFileSync, lstatSync } = require("fs");
 // utils
 const { namedExports } = require("./named-exports");
 const { anonymousExports } = require("./anonymous-exports");
+const { defaultExports } = require("./default-exports");
 
 const readFile = (filepath) => {
   const content = readFileSync(filepath, "utf8");
@@ -30,8 +31,17 @@ const readFile = (filepath) => {
     /((?<=(export(\s*)default))(.*?)(?=\())/g
   );
 
-  console.log("REQUIRED", requiredAnonymousExports);
-  console.log("STATIC", staticAnonymousExports);
+  const requiredDefaultExports = defaultExports(
+    content,
+    /(?<=\b(module.exports(\s*)=(\s*)))(\w+)/g
+  );
+  const staticDefaultExports = defaultExports(
+    content,
+    /(?<=\b(export default(\s*)function(\s*))|(export default(\s*)class(\s*))|(export default(\s*)))((?!class|function)\w+)/g
+  );
+
+  console.log("REQUIRED", requiredDefaultExports);
+  console.log("STATIC", staticDefaultExports);
 };
 
 module.exports.findFiles = (path) => {
