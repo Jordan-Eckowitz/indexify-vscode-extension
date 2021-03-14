@@ -79,7 +79,7 @@ const sortByFilepath = ({ filepath: filepathA }, { filepath: filepathB }) => {
   return 0;
 };
 
-module.exports.findFiles = (path, data = []) => {
+module.exports.getExports = (path, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
@@ -90,7 +90,7 @@ module.exports.findFiles = (path, data = []) => {
         data.push(readFile(dirItemPath));
       }
     } else {
-      this.findFiles(dirItemPath, data);
+      this.getExports(dirItemPath, data);
     }
   });
   return data.sort(sortByFilepath);

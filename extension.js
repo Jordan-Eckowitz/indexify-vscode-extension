@@ -2,7 +2,7 @@
 const vscode = require("vscode");
 
 // utils
-const { findFiles } = require("./utils");
+const { getExports } = require("./utils");
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,7 +21,7 @@ function activate(context) {
   let disposable = vscode.commands.registerCommand(
     "indexify.contextMenu",
     ({ path }) => {
-      const exports = findFiles(path);
+      const exports = getExports(path);
       console.log(exports);
 
       // Display a message box to the user
