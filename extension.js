@@ -21,12 +21,8 @@ function activate(context) {
   let disposable = vscode.commands.registerCommand(
     "indexify.contextMenu",
     ({ path }) => {
-      findFiles(path);
-
-      // TODO: find named exports, e.g. export const Component, module.exports.Component = "", module.exports={activate,deactivate};
-      // TODO: find default exports, e.g. export default function Component(){...}, module.exports = Component
-      // TODO: find anonymous exports, e.g. export default function (){...}, module.exports = function(){...}
-      // TODO: export typescript interface and type
+      const exports = findFiles(path);
+      console.log(exports);
 
       // Display a message box to the user
       vscode.window.showInformationMessage(path);

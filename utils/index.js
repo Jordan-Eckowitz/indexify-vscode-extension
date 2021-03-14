@@ -68,7 +68,7 @@ const readFile = (filepath) => {
   };
 };
 
-module.exports.findFiles = (path) => {
+module.exports.findFiles = (path, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
@@ -76,9 +76,11 @@ module.exports.findFiles = (path) => {
     if (isFile) {
       // only ready *.ts, *.tsx, *.js, *.jsx files
       if (dirItemPath.match(/ts|js/g)) {
-        return readFile(dirItemPath);
+        data.push(readFile(dirItemPath));
       }
+    } else {
+      this.findFiles(dirItemPath, data);
     }
-    // return console.log(`FOLDER - ${dirItem}`);
   });
+  return data;
 };
