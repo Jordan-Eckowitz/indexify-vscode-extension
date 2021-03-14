@@ -9,13 +9,13 @@ const { typeExports } = require("./type-exports");
 
 // regex - required
 const requiredNamedSingle = /(?<=\b(exports\.))(\w+)/g;
-const requiredMultiSingle = /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs;
+const requiredNamedMulti = /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs;
 const requiredAnonymous = /((?<=(module.exports(\s*)=))(.*)(?=\())/g;
 const requiredDefault = /(?<=\b(module.exports(\s*)=(\s*)))((?!class|function)\w+)/g;
 
 // regex - static
 const staticNamedSingle = /(?<=\b(export(\s*)(const|let|var)(\s*)))(\w+)/g;
-const staticMultiSingle = /(?<=(export(\s*){))(.*?)(?=})/gs;
+const staticNamedMulti = /(?<=(export(\s*){))(.*?)(?=})/gs;
 const staticAnonymous = /((?<=(export(\s*)default))(.*?)(?=\())/g;
 const staticDefault = /(?<=\b(export default(\s*)function(\s*))|(export default(\s*)class(\s*))|(export default(\s*)))((?!class|function)\w+)/g;
 
@@ -28,12 +28,12 @@ const readFile = (filepath) => {
   const requiredNamedExports = namedExports(
     content,
     requiredNamedSingle,
-    requiredMultiSingle
+    requiredNamedMulti
   );
   const staticNamedExports = namedExports(
     content,
     staticNamedSingle,
-    staticMultiSingle
+    staticNamedMulti
   );
 
   const requiredAnonymousExports = anonymousExports(
