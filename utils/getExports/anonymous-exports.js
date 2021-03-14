@@ -1,4 +1,4 @@
-const { getFilename } = require("./shared");
+const { getFilename } = require("../shared");
 
 module.exports.anonymousExports = (filepath, content, regex) => {
   const exports = content.match(regex) || [];
