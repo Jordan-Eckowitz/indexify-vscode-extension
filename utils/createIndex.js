@@ -9,28 +9,27 @@ const staticExport = (data, relativePath) => {
   // if (anonymousOrDefault.length > 1) {
   //   return console.log("ERROR - ONLY ALLOWED ONE ANONYMOUSE/DEFAULT EXPORT PER FILE");
   // }
-  const anonymousOrDefaultValue = anonymousOrDefault[0]
-    ? `${anonymousOrDefault[0]},`
-    : "";
-  const exportStart = `export ${anonymousOrDefaultValue}`;
-  const fromPath = `from "${relativePath}"`;
+  const anonymousOrDefaultValue = anonymousOrDefault[0] || "";
+  let exportStart = `export ${anonymousOrDefaultValue}`;
+  const fromPath = ` from "${relativePath}"`;
 
-  let exportOutput = `${exportStart} {${data.named.join(", ")}} ${fromPath}`;
-  if (exportOutput.length > MAX_LINE_LENGTH) {
-    exportOutput = `${exportStart} {${data.named
-      .map((name) => `\n\t${name}`)
-      .join(",")}\n} ${fromPath}`;
+  let middleExport = "";
+  if (data.named.length > 0) {
+    if (anonymousOrDefaultValue.length > 0) exportStart += ", ";
+    middleExport = `{ ${data.named.join(", ")} }`;
+    if ((exportStart + middleExport + fromPath).length > MAX_LINE_LENGTH) {
+      middleExport = `{${data.named.map((name) => `\n\t${name}`).join(",")}\n}`;
+    }
   }
-  console.log("OUTPUT", exportOutput);
+  return exportStart + middleExport + fromPath;
 };
 
 module.exports.createIndex = (path, data) => {
   const exports = data.map(({ filepath, static, required, types }) => {
     const relativePath = `./${relative(path, filepath)}`;
     const staticFileExport = staticExport(static, relativePath);
+    console.log("STATIC", staticFileExport);
   });
-
-  // TODO: static exports
   // TODO: required exports
   // TODO: type exports
 };
