@@ -2,7 +2,7 @@
 const vscode = require("vscode");
 
 // utils
-const { getExports } = require("./utils");
+const { getExports, createIndex } = require("./utils");
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -22,7 +22,7 @@ function activate(context) {
     "indexify.contextMenu",
     ({ path }) => {
       const exports = getExports(path);
-      console.log(exports);
+      createIndex(path, exports);
 
       // Display a message box to the user
       vscode.window.showInformationMessage(path);
