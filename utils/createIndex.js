@@ -64,7 +64,7 @@ const typeExport = (data, relativePath) => {
 };
 
 module.exports.createIndex = (path, data) => {
-  const exports = data.reduce(
+  const { required, static, types } = data.reduce(
     (output, { filepath, static, required, types }) => {
       const relativePath = `./${relative(path, filepath)}`;
       const requiredFileExport = requiredExport(required, relativePath);
@@ -84,5 +84,29 @@ module.exports.createIndex = (path, data) => {
     },
     { required: { imports: [], exports: [] }, static: [], types: [] }
   );
+
+  const exports = [];
+  const addToExports = (arr) => arr.forEach((exp) => exports.push(exp));
+
+  const formatRequiredExports = required.exports.reduce(
+    (moduleExports, file, idx) => {
+      moduleExports += `\n\t${file}`;
+      if (idx === required.exports.length - 1) {
+        moduleExports += "\n}";
+      } else {
+        moduleExports += ",";
+      }
+      return moduleExports;
+    },
+    "module.exports = {"
+  );
+
+  addToExports(required.imports);
+  if (required.exports.length > 0) {
+    exports.push(formatRequiredExports);
+  }
+  addToExports(static);
+  addToExports(types);
+
   console.log(exports);
 };
