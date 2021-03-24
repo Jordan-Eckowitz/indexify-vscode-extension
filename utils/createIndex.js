@@ -64,11 +64,25 @@ const typeExport = (data, relativePath) => {
 };
 
 module.exports.createIndex = (path, data) => {
-  const exports = data.map(({ filepath, static, required, types }) => {
-    const relativePath = `./${relative(path, filepath)}`;
-    const requiredFileExport = requiredExport(required, relativePath);
-    const staticFileExport = staticExport(static, relativePath);
-    const typeFileExport = typeExport(types, relativePath);
-    console.log(typeFileExport);
-  });
+  const exports = data.reduce(
+    (output, { filepath, static, required, types }) => {
+      const relativePath = `./${relative(path, filepath)}`;
+      const requiredFileExport = requiredExport(required, relativePath);
+      const staticFileExport = staticExport(static, relativePath);
+      const typeFileExport = typeExport(types, relativePath);
+      if (requiredFileExport) {
+        output.required.imports.push(requiredFileExport.imports);
+        output.required.exports.push(...requiredFileExport.exports);
+      }
+      if (staticFileExport) {
+        output.static.push(staticFileExport);
+      }
+      if (typeFileExport) {
+        output.types.push(typeFileExport);
+      }
+      return output;
+    },
+    { required: { imports: [], exports: [] }, static: [], types: [] }
+  );
+  console.log(exports);
 };
