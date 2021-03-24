@@ -1,8 +1,9 @@
 const { relative } = require("path");
+const { writeFileSync } = require("fs");
 
 const MAX_LINE_LENGTH = 80; // chars
 
-// const App, {Wrapper, Title} = require("./...")
+// const App, { Wrapper, Title } = require("./...")
 // module.exports = {...}
 const requiredExport = (data, relativePath) => {
   const anonymousOrDefault = [...data.anonymous, ...data.default];
@@ -28,23 +29,26 @@ const requiredExport = (data, relativePath) => {
   };
 };
 
-// export App, {Wrapper, Title} from "./..."
+// export { default as App, Wrapper, Title } from "./..."
 const staticExport = (data, relativePath) => {
   const anonymousOrDefault = [...data.anonymous, ...data.default];
   const allExports = [...anonymousOrDefault, ...data.named];
   if (allExports.length === 0) return null;
-  const anonymousOrDefaultValue = anonymousOrDefault[0] || "";
+  let anonymousOrDefaultValue = "{";
+  if (anonymousOrDefault[0]) {
+    anonymousOrDefaultValue = `{ default as ${anonymousOrDefault[0]}`;
+  }
   let exportStart = `export ${anonymousOrDefaultValue}`;
   const fromPath = ` from "${relativePath}"`;
 
-  let middleExport = "";
+  let middleExport = " }";
   if (data.named.length > 0) {
-    if (anonymousOrDefaultValue.length > 0) {
-      exportStart += ", ";
+    if (anonymousOrDefaultValue.length > 1) {
+      exportStart += ",";
     }
-    middleExport = `{ ${data.named.join(", ")} }`;
+    middleExport = ` ${data.named.join(", ")} }`;
     if ((exportStart + middleExport + fromPath).length > MAX_LINE_LENGTH) {
-      middleExport = `{${data.named.map((name) => `\n\t${name}`).join(",")}\n}`;
+      middleExport = `${data.named.map((name) => `\n\t${name}`).join(",")}\n}`;
     }
   }
   return exportStart + middleExport + fromPath;
@@ -108,5 +112,7 @@ module.exports.createIndex = (path, data) => {
   addToExports(static);
   addToExports(types);
 
-  console.log(exports);
+  const indexPath = `${path}/index.js`;
+  const exportsData = exports.join("\n");
+  writeFileSync(indexPath, exportsData);
 };
