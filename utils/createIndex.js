@@ -50,10 +50,10 @@ const staticExport = (data, relativePath) => {
   return exportStart + middleExport + fromPath;
 };
 
-// export App, {Wrapper, Title} from "./..."
+// export type {Wrapper, Title} from "./..."
 const typeExport = (data, relativePath) => {
   if (data.length === 0) return null;
-  const exportStart = `export `;
+  const exportStart = `export type `;
   const fromPath = ` from "${relativePath}"`;
 
   let middleExport = `{ ${data.join(", ")} }`;
@@ -69,5 +69,6 @@ module.exports.createIndex = (path, data) => {
     const requiredFileExport = requiredExport(required, relativePath);
     const staticFileExport = staticExport(static, relativePath);
     const typeFileExport = typeExport(types, relativePath);
+    console.log(typeFileExport);
   });
 };
