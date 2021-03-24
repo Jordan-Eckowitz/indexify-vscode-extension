@@ -83,14 +83,16 @@ module.exports.getExports = (path, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
-    const isFile = lstatSync(dirItemPath).isFile();
-    if (isFile) {
-      // only ready *.ts, *.tsx, *.js, *.jsx files
-      if (dirItemPath.match(/\.ts|\.js/g)) {
-        data.push(readFile(dirItemPath));
+    if (!dirItemPath.match("node_modules")) {
+      const isFile = lstatSync(dirItemPath).isFile();
+      if (isFile) {
+        // only ready *.ts, *.tsx, *.js, *.jsx files
+        if (dirItemPath.match(/\.ts|\.js/g)) {
+          data.push(readFile(dirItemPath));
+        }
+      } else {
+        this.getExports(dirItemPath, data);
       }
-    } else {
-      this.getExports(dirItemPath, data);
     }
   });
   return data.sort(sortByFilepath);
