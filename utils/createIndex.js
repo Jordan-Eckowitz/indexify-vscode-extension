@@ -1,5 +1,5 @@
 const { relative } = require("path");
-const { writeFileSync } = require("fs");
+const { writeFileSync, existsSync, unlinkSync } = require("fs");
 
 const MAX_LINE_LENGTH = 80; // chars
 
@@ -70,6 +70,10 @@ const typeExport = (data, relativePath) => {
 module.exports.createIndex = (path, data) => {
   const { required, static, types } = data.reduce(
     (output, { filepath, static, required, types }) => {
+      // exclude any exports from nested index files
+      if (filepath.match("index.js") || filepath.match("index.ts")) {
+        return output;
+      }
       const relativePath = `./${relative(path, filepath)}`;
       const requiredFileExport = requiredExport(required, relativePath);
       const staticFileExport = staticExport(static, relativePath);
@@ -89,8 +93,14 @@ module.exports.createIndex = (path, data) => {
     { required: { imports: [], exports: [] }, static: [], types: [] }
   );
 
+  let fileExtension = "js";
   const exports = [];
-  const addToExports = (arr) => arr.forEach((exp) => exports.push(exp));
+  const addToExports = (arr) =>
+    arr.forEach((exp) => {
+      exports.push(exp);
+      // if any files are .ts* then create a index.ts file, otherwise index.js
+      if (exp.match(".ts")) fileExtension = "ts";
+    });
 
   const formatRequiredExports = required.exports.reduce(
     (moduleExports, file, idx) => {
@@ -112,7 +122,14 @@ module.exports.createIndex = (path, data) => {
   addToExports(static);
   addToExports(types);
 
-  const indexPath = `${path}/index.js`;
-  const exportsData = exports.join("\n");
+  ["js", "ts"].forEach((ext) => {
+    const removePath = `${path}/index.${ext}`;
+    if (existsSync(removePath)) {
+      unlinkSync(removePath);
+    }
+  });
+
+  const indexPath = `${path}/index.${fileExtension}`;
+  const exportsData = exports.join("\n") + "\n"; // leave empty line at the bottom
   writeFileSync(indexPath, exportsData);
 };
