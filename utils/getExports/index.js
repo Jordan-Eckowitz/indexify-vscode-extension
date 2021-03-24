@@ -86,7 +86,7 @@ module.exports.getExports = (path, data = []) => {
     const isFile = lstatSync(dirItemPath).isFile();
     if (isFile) {
       // only ready *.ts, *.tsx, *.js, *.jsx files
-      if (dirItemPath.match(/ts|js/g)) {
+      if (dirItemPath.match(/\.ts|\.js/g)) {
         data.push(readFile(dirItemPath));
       }
     } else {
