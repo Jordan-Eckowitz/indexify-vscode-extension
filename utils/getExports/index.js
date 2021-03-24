@@ -79,11 +79,15 @@ const sortByFilepath = ({ filepath: filepathA }, { filepath: filepathB }) => {
   return 0;
 };
 
+const isExcluded = (path) => {
+  return ["/node_modules", "/build"].some((dir) => path.match(dir));
+};
+
 module.exports.getExports = (path, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
-    if (!dirItemPath.match("node_modules")) {
+    if (!isExcluded(dirItemPath)) {
       const isFile = lstatSync(dirItemPath).isFile();
       if (isFile) {
         // only ready *.ts, *.tsx, *.js, *.jsx files
