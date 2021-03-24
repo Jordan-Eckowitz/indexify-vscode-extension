@@ -16,8 +16,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "indexify.contextMenu",
-        "title": "Indexify"
+        "title": "Indexify",
+        "command": "indexify.contextMenu"
       }
     ],
     "menus": {
@@ -34,7 +34,19 @@
           "when": "explorerResourceIsFolder"
         }
       ]
-    }
+    },
+    "configuration": [
+      {
+        "title": "Indexify",
+        "properties": {
+          "indexify.exclusions.directoryList": {
+            "description": "comma separated list of directories to exclude from being indexed",
+            "type": "string",
+            "default": "node_modules, build"
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",

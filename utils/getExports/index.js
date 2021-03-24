@@ -79,15 +79,15 @@ const sortByFilepath = ({ filepath: filepathA }, { filepath: filepathB }) => {
   return 0;
 };
 
-const isExcluded = (path) => {
-  return ["/node_modules", "/build"].some((dir) => path.match(dir));
+const isExcluded = (exclusions, path) => {
+  return exclusions.some((dir) => path.match(dir));
 };
 
-module.exports.getExports = (path, data = []) => {
+module.exports.getExports = (path, exclusions, data = []) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
-    if (!isExcluded(dirItemPath)) {
+    if (!isExcluded(exclusions, dirItemPath)) {
       const isFile = lstatSync(dirItemPath).isFile();
       if (isFile) {
         // only ready *.ts, *.tsx, *.js, *.jsx files
@@ -95,7 +95,7 @@ module.exports.getExports = (path, data = []) => {
           data.push(readFile(dirItemPath));
         }
       } else {
-        this.getExports(dirItemPath, data);
+        this.getExports(dirItemPath, exclusions, data);
       }
     }
   });

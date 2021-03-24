@@ -2,7 +2,7 @@
 const vscode = require("vscode");
 
 // utils
-const { getExports, createIndex } = require("./utils");
+const { getExports, createIndex, formatExclusions } = require("./utils");
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,7 +21,12 @@ function activate(context) {
   let disposable = vscode.commands.registerCommand(
     "indexify.contextMenu",
     ({ path }) => {
-      const exports = getExports(path);
+      const config = vscode.workspace.getConfiguration("indexify");
+      const exclusions = formatExclusions(
+        config.get("exclusions.directoryList")
+      );
+
+      const exports = getExports(path, exclusions);
       createIndex(path, exports);
 
       // Display a message box to the user
