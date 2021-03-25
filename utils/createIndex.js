@@ -70,10 +70,6 @@ const typeExport = (data, relativePath) => {
 module.exports.createIndex = (path, data) => {
   const { required, static, types } = data.reduce(
     (output, { filepath, static, required, types }) => {
-      // exclude any exports from nested index files
-      if (filepath.match("index.js") || filepath.match("index.ts")) {
-        return output;
-      }
       const relativePath = `./${relative(path, filepath)}`;
       const requiredFileExport = requiredExport(required, relativePath);
       const staticFileExport = staticExport(static, relativePath);
