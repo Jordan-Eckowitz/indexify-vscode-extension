@@ -71,6 +71,10 @@ module.exports.createIndex = (path, data) => {
   const { required, static, types } = data.reduce(
     (output, { filepath, static, required, types }) => {
       const relativePath = `./${relative(path, filepath)}`;
+      // if relativePath = "./index.*", i.e. index file at root of selected folder, then exclude
+      if (relativePath.match(/\.\/index\./)) {
+        return output;
+      }
       const requiredFileExport = requiredExport(required, relativePath);
       const staticFileExport = staticExport(static, relativePath);
       const typeFileExport = typeExport(types, relativePath);
