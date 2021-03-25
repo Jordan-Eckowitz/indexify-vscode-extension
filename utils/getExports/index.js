@@ -17,7 +17,7 @@ const requiredDefault = /(?<=\b(module.exports(\s*)=(\s*)))((?!class|function)\w
 const staticNamedSingle = /(?<=\b(export(\s*)(const|let|var|function)(\s*)))(\w+)/g;
 const staticNamedMulti = /(?<=(export(\s*){))(.*?)(?=})/gs;
 const staticAnonymous = /((?<=(export(\s*)default))(.*?)(?=\())/g;
-const staticDefault = /(?<=\b(export default(\s*)function(\s*))|(export default(\s*)class(\s*))|(export default(\s*)))((?!class|function)\w+)/g;
+const staticDefault = /(?<=\b(export default(\s*)))(.)/g;
 
 // regex - types
 const allTypes = /(?<=\b(export(\s*)type(\s*))|(export(\s*)interface(\s*)))(\w+)/g;
