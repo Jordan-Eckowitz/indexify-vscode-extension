@@ -67,9 +67,13 @@ const typeExport = (data, relativePath) => {
   return exportStart + middleExport + fromPath;
 };
 
-module.exports.createIndex = (path, data) => {
+module.exports.createIndex = (path, data, includeIndexFiles) => {
   const { required, static, types } = data.reduce(
     (output, { filepath, static, required, types }) => {
+      // if includeIndexFiles = false then exclude exports from nested index files
+      if (!includeIndexFiles && filepath.match(/index\.(js|ts)/)) {
+        return output;
+      }
       const relativePath = `./${relative(path, filepath)}`;
       // if relativePath = "./index.*", i.e. index file at root of selected folder, then exclude
       if (relativePath.match(/\.\/index\./)) {

@@ -23,9 +23,10 @@ function activate(context) {
     ({ path }) => {
       const config = vscode.workspace.getConfiguration("indexify");
       const exclusions = formatExclusions(config.get("exclude.directoryList"));
+      const includeIndexFiles = config.get("include.otherIndexFiles");
 
       const exports = getExports(path, exclusions);
-      createIndex(path, exports);
+      createIndex(path, exports, includeIndexFiles);
 
       // Display a message box to the user
       vscode.window.showInformationMessage(path);
