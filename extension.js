@@ -30,7 +30,7 @@ function activate(context) {
       createIndex(path, exports, includeIndexFiles);
 
       // Display a message box to the user
-      vscode.window.showInformationMessage(path);
+      vscode.window.showInformationMessage(`index file created in "${path}"`);
     }
   );
 
