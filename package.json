@@ -39,10 +39,20 @@
       {
         "title": "Indexify",
         "properties": {
-          "indexify.exclusions.directoryList": {
-            "description": "comma separated list of directories to exclude from being indexed",
+          "indexify.exclude.directoryList": {
+            "description": "Comma separated list of directories to exclude from being indexed",
             "type": "string",
             "default": "node_modules, build"
+          },
+          "indexify.include.otherIndexFiles": {
+            "description": "Include other index files as exports?",
+            "type": "boolean",
+            "default": false
+          },
+          "indexify.include.nestedFiles": {
+            "description": "Include nested directories as exports?",
+            "type": "boolean",
+            "default": true
           }
         }
       }

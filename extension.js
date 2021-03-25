@@ -22,9 +22,7 @@ function activate(context) {
     "indexify.contextMenu",
     ({ path }) => {
       const config = vscode.workspace.getConfiguration("indexify");
-      const exclusions = formatExclusions(
-        config.get("exclusions.directoryList")
-      );
+      const exclusions = formatExclusions(config.get("exclude.directoryList"));
 
       const exports = getExports(path, exclusions);
       createIndex(path, exports);
