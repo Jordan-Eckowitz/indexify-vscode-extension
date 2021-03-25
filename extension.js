@@ -26,7 +26,7 @@ function activate(context) {
       const includeIndexFiles = config.get("include.otherIndexFiles");
       const includeNestedDirectories = config.get("include.nestedDirectories");
 
-      const exports = getExports(path, exclusions);
+      const exports = getExports(path, exclusions, includeNestedDirectories);
       createIndex(path, exports, includeIndexFiles);
 
       // Display a message box to the user

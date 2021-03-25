@@ -83,7 +83,12 @@ const isExcluded = (exclusions, path) => {
   return exclusions.some((dir) => path.match(dir));
 };
 
-module.exports.getExports = (path, exclusions, data = []) => {
+module.exports.getExports = (
+  path,
+  exclusions,
+  includeNestedDirectories,
+  data = []
+) => {
   const dirItems = readdirSync(path);
   dirItems.forEach((dirItem) => {
     const dirItemPath = `${path}/${dirItem}`;
@@ -94,8 +99,13 @@ module.exports.getExports = (path, exclusions, data = []) => {
         if (dirItemPath.match(/\.ts|\.js/g)) {
           data.push(readFile(dirItemPath));
         }
-      } else {
-        this.getExports(dirItemPath, exclusions, data);
+      } else if (includeNestedDirectories) {
+        this.getExports(
+          dirItemPath,
+          exclusions,
+          includeNestedDirectories,
+          data
+        );
       }
     }
   });
