@@ -10,27 +10,41 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:indexify.contextMenu"
+    "onCommand:indexify.contextMenu.shallow",
+    "onCommand:indexify.contextMenu.deep"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "title": "Indexify",
-        "command": "indexify.contextMenu"
+        "title": "Create Shallow Index",
+        "command": "indexify.contextMenu.shallow"
+      },
+      {
+        "title": "Create Deep Index",
+        "command": "indexify.contextMenu.deep"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "indexify.contextMenu",
+          "command": "indexify.contextMenu.shallow",
           "when": "explorerResourceIsFolder",
-          "group": "1_modification"
+          "group": "1_modification@1"
+        },
+        {
+          "command": "indexify.contextMenu.deep",
+          "when": "explorerResourceIsFolder",
+          "group": "1_modification@2"
         }
       ],
       "commandPalette": [
         {
-          "command": "indexify.contextMenu",
+          "command": "indexify.contextMenu.shallow",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "indexify.contextMenu.deep",
           "when": "explorerResourceIsFolder"
         }
       ]
@@ -48,11 +62,6 @@
             "description": "Include other index files as exports?",
             "type": "boolean",
             "default": false
-          },
-          "indexify.include.nestedDirectories": {
-            "description": "Include nested directories as exports?",
-            "type": "boolean",
-            "default": true
           }
         }
       }
