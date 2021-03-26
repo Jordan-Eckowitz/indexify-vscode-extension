@@ -8,10 +8,10 @@ const { defaultExports } = require("./default-exports");
 const { typeExports } = require("./type-exports");
 
 // regex - required
-const requiredNamedSingle = /(?<=\b(exports\.))(\w+)/g;
+const requiredNamedSingle = /(?<=\b(exports\.))((?!default)\w+)/g;
 const requiredNamedMulti = /(?<=(module.exports(\s*)=(\s*){))(.*?)(?=})/gs;
 const requiredAnonymous = /((?<=(module.exports(\s*)=))(.*)(?=\())/g;
-const requiredDefault = /(?<=\b(module.exports(\s*)=(\s*)))((?!class|function)\w+)/g;
+const requiredDefault = /(?<=\b(module.exports(\s*)=(\s*))|(exports.default(\s*)=(\s*)))((?!class|function)\w+)/g;
 
 // regex - static
 const staticNamedSingle = /(?<=\b(export(\s*)(const|let|var|function)(\s*)))(\w+)/g;
