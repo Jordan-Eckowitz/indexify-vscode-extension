@@ -49,6 +49,8 @@ const staticExport = (data, relativePath) => {
     middleExport = ` ${data.named.join(", ")} }`;
     if ((exportStart + middleExport + fromPath).length > MAX_LINE_LENGTH) {
       middleExport = `${data.named.map((name) => `\n\t${name}`).join(",")}\n}`;
+      // for multi-line export need to move "default as ..." onto a new, tabbed line
+      exportStart = exportStart.replace("default as", "\n\tdefault as");
     }
   }
   return exportStart + middleExport + fromPath;
