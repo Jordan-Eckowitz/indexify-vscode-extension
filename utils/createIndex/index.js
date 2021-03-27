@@ -67,7 +67,7 @@ module.exports.createIndex = (path, data, includeIndexFiles) => {
   addToExports(static);
   addToExports(types);
 
-  ["js", "ts"].forEach((ext) => {
+  ["js", "jsx", "ts", "tsx"].forEach((ext) => {
     const removePath = `${path}/index.${ext}`;
     if (existsSync(removePath)) {
       unlinkSync(removePath);
