@@ -1,18 +1,35 @@
 {
   "name": "indexify",
-  "displayName": "indexify",
-  "description": "generate an index file for any ts/js exports in a directory",
-  "version": "0.0.1",
+  "displayName": "Indexify",
+  "description": "generate an index file for js/ts exports in a directory",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.54.0"
   },
+  "publisher": "JordanEckowitz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jordan-Eckowitz/indexify-vscode-extension.git"
+  },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "index",
+    "exports",
+    "javascript",
+    "typescript",
+    "context menu"
   ],
   "activationEvents": [
     "onCommand:indexify.contextMenu.shallow",
     "onCommand:indexify.contextMenu.deep"
   ],
+  "icon": "images/logo.png",
+  "galleryBanner": {
+    "color": "#6f66e9",
+    "theme": "dark"
+  },
   "main": "./extension.js",
   "contributes": {
     "commands": [
