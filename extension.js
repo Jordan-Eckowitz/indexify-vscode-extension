@@ -10,14 +10,21 @@ const indexify = (path, includeNestedDirectories) => {
   const includeIndexFiles = config.get("include.otherIndexFiles");
 
   const exports = getExports(path, exclusions, includeNestedDirectories);
-  createIndex(path, exports, includeIndexFiles);
+  if (exports.length > 0) {
+    createIndex(path, exports, includeIndexFiles);
 
-  const rootDir = path.split("/").slice(-1);
+    const rootDir = path.split("/").slice(-1);
 
-  // Display a message box to the user
-  vscode.window.showInformationMessage(
-    `index file created in "${rootDir}" directory`
-  );
+    // Display a message box to the user
+    vscode.window.showInformationMessage(
+      `index file created in "${rootDir}" directory`
+    );
+  } else {
+    const msg = includeNestedDirectories
+      ? "Nothing to index in this directory"
+      : "No shallow exports - try creating a deep index";
+    vscode.window.showWarningMessage(msg);
+  }
 };
 
 // this method is called when your extension is activated
