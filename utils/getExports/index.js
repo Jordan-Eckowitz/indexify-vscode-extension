@@ -20,7 +20,7 @@ const staticAnonymous = /((?<=(export(\s*)default))(.*?)(?=\())/g;
 const staticDefault = /(?<=\b(export default(\s*)))(.)/g;
 
 // regex - types
-const allTypes = /(?<=\b(export(\s*)type(\s*))|(export(\s*)interface(\s*)))(\w+)/g;
+const allTypes = /(?<=\b(export(\s*)(type|interface)(\s*)))(\w+)/g;
 
 const readFile = (filepath) => {
   const content = readFileSync(filepath, "utf8");
