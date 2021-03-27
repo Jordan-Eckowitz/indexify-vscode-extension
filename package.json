@@ -1,7 +1,7 @@
 {
   "name": "indexify",
   "displayName": "Indexify",
-  "description": "generate an index file for js/ts exports in a directory",
+  "description": "Generate an index file for js/ts exports in a directory",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.54.0"
