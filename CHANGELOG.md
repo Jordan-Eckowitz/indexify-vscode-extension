@@ -1,9 +1,10 @@
 # Change Log
 
-All notable changes to the "indexify" extension will be documented in this file.
+All notable changes to the **Indexify** extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
+## [1.0.0]
 
 - Initial release
+- shallow indexing from context menu / command palette
+- deep indexing from context menu / command palette
+- supports `*.js`, `*.jsx`, `*.ts`, `*.tsx` file formats
