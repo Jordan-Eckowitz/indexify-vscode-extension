@@ -43,7 +43,9 @@ module.exports.createIndex = (path, data, includeIndexFiles) => {
     arr.forEach((exp) => {
       exports.push(exp.replace(/\.(ts|js)(.*?)\"/, '"'));
       // if any files are .ts* then create a index.ts file, otherwise index.js
-      if (exp.match(".ts")) fileExtension = "ts";
+      if (exp.match(/\.ts/)) {
+        fileExtension = "ts";
+      }
     });
   };
 
