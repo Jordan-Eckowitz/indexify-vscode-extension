@@ -77,6 +77,7 @@ module.exports.createIndex = (path, data, includeIndexFiles) => {
   });
 
   const indexPath = `${path}/index.${fileExtension}`;
-  const exportsData = exports.join("\n") + "\n"; // leave empty line at the bottom
+  // leave empty line at the bottom, also add semi-colon at end of each row
+  const exportsData = exports.join(";\n") + ";\n";
   writeFileSync(indexPath, exportsData);
 };
