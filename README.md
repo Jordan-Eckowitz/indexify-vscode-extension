@@ -7,7 +7,7 @@ The only problem is manually keeping track of all your exports and updating inde
 Indexify adds options to your context menu to auto-generate index files on the fly. All you have to do is right-click on any directory in the explorer and select either a **shallow index** (indexes only the root of the selected directory) or a **deep index** (indexes all nested directories)
 
 <br />
-<img src="https://indexify.s3.amazonaws.com/context-menu.png" alt="context menu" height="400" />
+<img src="https://drive.google.com/uc?export=view&id=1pK3LlmL2p4MlkU6XKvQYAzdnP50pnGf4" alt="context menu" height="400" />
 <br />
 <br />
 
@@ -30,7 +30,7 @@ These are some of the key features:
 Creating a shallow index will only include files in the root of the selected directory. All sub-directories within the selected folder will be ignored.
 
 <br />
-<img src="https://indexify.s3.amazonaws.com/shallow-index.gif" alt="context menu" height="400" />
+<img src="https://drive.google.com/uc?export=view&id=1h1T1xHSptFw8S6VH_lmgutyZUSnnxQS3" alt="shallow index"  />
 <br />
 <br />
 
@@ -39,7 +39,7 @@ Creating a shallow index will only include files in the root of the selected dir
 Creating a deep index will analyze all files and directories within the selected folder (no matter how deeply nested your files are - they'll be indexed!).
 
 <br />
-<img src="https://indexify.s3.amazonaws.com/deep-index.gif" alt="context menu" height="400" />
+<img src="https://drive.google.com/uc?export=view&id=1eijwVQXgDNhnAHC-9lBfy0F8EPahxn1o" alt="deep index"  />
 <br />
 <br />
 
@@ -51,4 +51,4 @@ Indexify has the following optional settings:
 - `indexify.include.otherIndexFiles`: include other index files as exports? (default: `false`)
 
 <br />
-<img src="https://indexify.s3.amazonaws.com/settings.png" alt="context menu" height="200" />
+<img src="https://drive.google.com/uc?export=view&id=1QsTI8FxQwKnW6X2AKN7-WkXp_3x4Tqlc" alt="extension settings" height="200" />
