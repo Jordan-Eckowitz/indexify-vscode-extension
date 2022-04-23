@@ -2,6 +2,10 @@
 
 All notable changes to the **Indexify** extension will be documented in this file.
 
+## [1.0.2]
+
+- Updated README (image links were broken)
+
 ## [1.0.1]
 
 - Fixed bug where file names containing 'ts' were recognized as Typescript files
